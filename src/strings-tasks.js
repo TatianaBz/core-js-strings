@@ -235,7 +235,9 @@ function endsWith(str, substr) {
  *   formatTime(0, 0) => "00:00"
  */
 function formatTime(minutes, seconds) {
-  return minutes.padStart(2, '0').concat(':', seconds.padStart(2, '0'));
+  return String(minutes)
+    .padStart(2, '0')
+    .concat(':', String(seconds).padStart(2, '0'));
 }
 
 /**
@@ -280,8 +282,8 @@ function orderAlphabetically(str) {
  *   containsSubstring('12345', '34') => true
  */
 function containsSubstring(str, substring) {
-  if (str.includes(substring) === -1) return false;
-  return true;
+  if (str.includes(substring)) return true;
+  return false;
 }
 
 /**
@@ -300,11 +302,10 @@ function containsSubstring(str, substring) {
  */
 function countVowels(str) {
   const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
-  let res = 0;
-  vowels.map((e) => {
-    if (str.includes(e)) res += 1;
-    return res;
-  });
+  const res = vowels.reduce((s, e) => {
+    if (str.indexOf(e) !== -1) return s + 1;
+    return s;
+  }, 0);
   return res;
 }
 
@@ -476,19 +477,19 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
-  /*
-  const newStr = str.toLowerCase();
+function encodeToRot13(str) {
+  const newStr = str.split('');
   const arr = [];
-  for (let i = 0; i <= arr.length; i = +1) {
-    const lett = newStr.charCodeAt(i);
-    if (lett - 13 <= 97 && lett - 13 >= 122) {
-      arr[i] = String.fromCharCode(lett - 13);
-    } else arr[i] = String.fromCharCode(lett + 13);
-  }
+  newStr.map((el) => {
+    const lett = el.codePointAt(0);
+    if ((lett >= 97 && lett <= 122) || (lett >= 65 && lett <= 90)) {
+      if ((lett >= 97 && lett <= 109) || (lett >= 65 && lett <= 77))
+        return arr.push(String.fromCharCode(lett + 13));
+      return arr.push(String.fromCharCode(lett - 13));
+    }
+    return arr.push(String.fromCharCode(lett));
+  });
   return arr.join('');
-  */
 }
 
 /**
