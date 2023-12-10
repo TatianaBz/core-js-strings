@@ -58,7 +58,7 @@ function isString(value) {
  */
 
 function concatenateStrings(value1, value2) {
-  return value1 + value2;
+  return value1.concat(value2);
 }
 
 /**
@@ -74,7 +74,7 @@ function concatenateStrings(value1, value2) {
  */
 function getFirstChar(value) {
   if (Boolean(value) === false) return '';
-  return value[0];
+  return value.charAt(0);
 }
 /**
  * Removes leading and trailing whitespace characters from the string.
@@ -187,8 +187,12 @@ function removeLastOccurrences(str, value) {
  *   sumOfCodes('') => 0
  *   sumOfCodes() => 0
  */
-function sumOfCodes(/* str */) {
-  throw new Error('Not implemented');
+function sumOfCodes(str) {
+  if (Boolean(str) === false) return 0;
+  const res = str.split('').reduce((s, e) => {
+    return s + e.codePointAt(0);
+  }, 0);
+  return res;
 }
 
 /**
@@ -302,8 +306,9 @@ function containsSubstring(str, substring) {
  */
 function countVowels(str) {
   const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
-  const res = vowels.reduce((s, e) => {
-    if (str.indexOf(e) !== -1) return s + 1;
+  const newstr = str.split('');
+  const res = newstr.reduce((s, e) => {
+    if (vowels.indexOf(e) !== -1) return s + 1;
     return s;
   }, 0);
   return res;
@@ -323,11 +328,13 @@ function countVowels(str) {
  *   isPalindrome('No lemon, no melon') => true
  */
 function isPalindrome(str) {
-  const newstr = str.split(' ').join('');
-  for (let i = 0; i <= Math.floor(newstr.length / 2); i += 1) {
-    if (newstr[i].toLowerCase() !== newstr[newstr.length - i - 1].toLowerCase())
-      return false;
-  }
+  const lower = str.toLowerCase().split(' ').join('').split('');
+  const news = [];
+  lower.map((e) => {
+    if (e.codePointAt(0) >= 97 && e.codePointAt(0) <= 122) return news.push(e);
+    return news;
+  });
+  if (news.join('') !== news.reverse().join('')) return false;
   return true;
 }
 /**
@@ -368,10 +375,11 @@ function findLongestWord(str) {
  */
 function reverseWords(str) {
   const newarr = str.split(' ');
+  const arr = [];
   newarr.map((el) => {
-    return el.split('').sort().join('');
+    return arr.push(el.split('').reverse().join(''));
   });
-  return newarr.join(' ');
+  return arr.join(' ');
 }
 
 /**
