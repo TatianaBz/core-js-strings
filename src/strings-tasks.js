@@ -189,10 +189,9 @@ function removeLastOccurrences(str, value) {
  */
 function sumOfCodes(str) {
   if (Boolean(str) === false) return 0;
-  const res = str.split('').reduce((s, e) => {
-    return s + e.codePointAt(0);
+  return [...str].reduce((s, e) => {
+    return s + e.charCodeAt(0);
   }, 0);
-  return res;
 }
 
 /**
